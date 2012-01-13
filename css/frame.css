@@ -1,0 +1,48 @@
+body,html {
+		margin: 0;
+		padding: 0;
+		font: 12px/1.5 arial;
+		height:100%;
+	}
+	body {
+		color: #333333;
+		background: #F4F5F5;
+	}
+	#container {
+		min-height:100%;
+		width: 900px;
+		position: relative;
+		padding:0 10px 0 10px;	
+		margin: 0 auto;
+		background: #FFFFFF;
+	}
+	#content {
+		padding: 10px;
+		padding-bottom: 60px;  
+		/* 20px(font-size)x2(line-height) + 10px(padding)x2=60px*/
+	}
+	#footer {
+		position: absolute;
+		bottom: 0;
+		padding: 10px 0;
+		width: 98%;
+	}
+	#logo {
+		width: 283px;
+	}
+	#logo img {
+		width: 283px;
+		height: 80px;
+		float: left;
+	}
+	#user {
+		width: 617px;
+	}
+	#user p {
+		font-size: medium;
+	}
+	#errMsg {
+		font-size: small;
+		font-weight: bold;
+		color: #008000;
+	}
