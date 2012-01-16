@@ -58,14 +58,14 @@
 		// Check if soil data is avaliable in DB
 		if (!array_key_exists("S", $fileTypes) && !checkSoilAvailable($ret, $checkRet)) {
 			if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 2) {
-				$_SESSION["dssat_steps"] = 2;
+				$_SESSION["dssat_steps"] = 3;
 			}
 			$target = "inputFiles02.php";
 	
 		// Check if weather data is avaliable in DB
 		} else if (!array_key_exists("W", $fileTypes) && !checkWthAvailable($ret, $checkRet)) {
 			if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 3) {
-				$_SESSION["dssat_steps"] = 3;
+				$_SESSION["dssat_steps"] = 4;
 			}
 			$target = "inputFiles03.php";
 		} else {
@@ -78,12 +78,11 @@
 		}
 	} else {
 		$fileTypes = checkUploadStatus();
-		checkSoilAvailable($ret, $checkRet);
 		
 		if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 2) {
 			$_SESSION["dssat_steps"] = 2;
 		}
-		$target = "inputFiles02.php";
+		$target = "inputFiles04.php";
 	}
 ?>
 
@@ -124,10 +123,20 @@
 				
 				if (array_key_exists("W", $fileTypes)) {
 					for ($i = 0; $i< count($fileTypes["W"]); $i++) {
-						echo "<input type='hidden' id='upload_file' name='upload_file[]' value='" . $fileTypes["W"][$i] . "' />\r\n";
+						echo "<input type='hidden' id='upload_file' name='upload_file[]' value='" . json_encode($fileTypes["W"][$i]) . "' />\r\n";
 					}
 				}
-			} if ($target == "confirmFiles.php") {
+			} if ($target == "inputFiles04.php") {
+				echo "<input type='hidden' name='content_id' value='" . $ret["exp.details:"]["exname"] . "' />\r\n";
+				
+				if (array_key_exists("O", $fileTypes)) {
+					for ($i = 0; $i< count($fileTypes["O"]); $i++) {
+						echo "<input type='hidden' id='upload_file' name='upload_file[]' value='" . $fileTypes["O"][$i] . "' />\r\n";
+					}
+				}
+			} else if ($target == "confirmFiles.php") {
+				
+			} else {
 				
 			}
 		?>

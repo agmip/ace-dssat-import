@@ -1,5 +1,5 @@
 <?php include("parts_checkSession.php"); ?>
-<?php $p_pageNum=3;  $p_page="input03"; include("parts_checkTabsStatus.php"); ?>
+<?php $p_pageNum=4;  $p_page="input03"; include("parts_checkTabsStatus.php"); ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +8,13 @@
 <meta http-equiv="Content-Language" content="en-US" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="css/frame.css" />
-<script src="js/function.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/function.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+	function addFileInput(idStr) {
+		$("#Files_"+idStr).append("<input id='FilePath_" + idStr + "' name='FilePath_" + idStr + "[]' type='file' size='60'  onchange=\"changeToUploadById2('" + idStr + "');\" /><br/>");
+	}
+</script>
 <title>Input Files 03 WTH</title>
 </head>
 
@@ -55,7 +61,7 @@
 						
 						if ($content_status[$i] == "1") {
 							$dbStatus =  "Fully Available In DB";
-							$checked = " onclick=\"changeActiveStatus('" . $content_id[$i] . "');\"";
+							$checked = " onclick=\"changeActiveStatusW('" . $content_id[$i] . "');\"";
 							$disabled = " disabled='disabled' ";
 							if (isset($_POST["upload_file"]) && $_POST["upload_file"][$i] != "") {
 								$checked .= " checked = 'checked' ";
@@ -74,20 +80,22 @@
 						echo "				<tr id='inputRow'>\r\n";
 						echo "					<td rowspan='2'>" . $content_id[$i] . "</td>\r\n";
 						echo "					<td>" . $dbStatus . "</td>\r\n";
-						echo "					<td>Duration From <input id='FromY' name='sYear[]' type='text' maxlength='2' size='2' value='" . $sYear . "' disabled='disabled'/>-<input id='FromD' name='sDay[]' type='text' maxlength='3' size='3' value='" . $sDay . "' disabled='disabled' /> To <input id='ToY' name='eYear[]' type='text' maxlength='2' size='2' value='" . $eYear . "' disabled='disabled' />-<input id='ToD' name='eDay[]' type='text' maxlength='3' size='3' value='" . $eDay . "' disabled='disabled' /></td>\r\n";
+						echo "					<td>Duration required From <input id='FromY' name='sYear[]' type='text' maxlength='2' size='2' value='" . $sYear . "' disabled='disabled'/>-<input id='FromD' name='sDay[]' type='text' maxlength='3' size='3' value='" . $sDay . "' disabled='disabled' /> To <input id='ToY' name='eYear[]' type='text' maxlength='2' size='2' value='" . $eYear . "' disabled='disabled' />-<input id='ToD' name='eDay[]' type='text' maxlength='3' size='3' value='" . $eDay . "' disabled='disabled' /></td>\r\n";
 						echo "					<td class='center'>\r\n";
 						echo "						<input id='check_" . $content_id[$i] . "' name='checkbox[]' type='checkbox' value='1'" . $checked . " />\r\n";
 						echo "						<input id='FileId_" . $content_id[$i] . "' type='hidden' name='FileId[]' value='" . $content_id[$i] . "'" . $disabled . "/>\r\n";
 						echo "					</td>\r\n";
 						echo "				</tr>\r\n";
-						echo "				<tr id='inputRow'><td colspan='3'>\r\n";
+						echo "				<tr id='inputRow'><td colspan='3' id='Files_" . $content_id[$i] . "'>\r\n";
 						if (isset($_POST["upload_file"])) {
-							//echo "Read From <strong>";
-							//for($j=0; $j<count($_POST["upload_file"]); $j++) echo $_POST["upload_file"][$j] . ", ";
-							//echo "</strong> OR<br/>\r\n";
-							echo "Read From <strong>" . $_POST["upload_file"][$i] . "</strong> OR<br/>\r\n";
+							$fileNames = json_decode($_POST["upload_file"][$i], true);
+							echo "Read From <strong>";
+							for($j=0; $j<count($fileNames); $j++) echo $fileNames[$j] . ", ";
+							echo "</strong> OR<br/>\r\n";
+							//echo "Read From <strong>" . $fileNames . "</strong> OR<br/>\r\n";
 						}
-						echo "<input id='FilePath_" . $content_id[$i] . "' name='FilePath[]' type='file' size='60'  onchange=\"changeToUploadById('" .  $content_id[$i] . "');\"" . $disabled . "/></td></tr>\r\n";
+						echo "<input id='FilePath_" . $content_id[$i] . "' name='FilePath_" . $content_id[$i] . "[]' type='file' size='60'  onchange=\"changeToUploadById('" .  $content_id[$i] . "');\"" . $disabled . "/>\r\n";
+						echo "<input id='FileAdd_" . $content_id[$i] . "' value='Add More' type='button' onclick=\"addFileInput('" . $content_id[$i] . "');\"" . $disabled . " /><br/></td></tr>\r\n";
 						echo "<input type='hidden' name='wid[]' value='" . $content_id[$i] . "' />\r\n";
 						$AllInDBFlg = true;
 						if ((isset($_POST["upload_file"]) && $_POST["upload_file"][$i] != "") || $content_status[$i] == "1") {

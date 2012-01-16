@@ -160,16 +160,16 @@
 						for($i = 0; $i < count($filesW); $i++) {
 							
 							$retW = $filesW[$i];
-							$wid = $retW["inste"] . $retW["sitee"];
+							$wid = $retW["wid"];
 							
-							$sYear = substr($retW["daily"][1]["yrdoyw"], 0, -3);
+							$sYear = substr($retW["start"], 0, -3);
 							if ($sYear == "") $sYear = "00";
 							else if (strlen($sYear) == 1) $sYear = "0".$sYear;
-							$sDay = substr($retW["daily"][1]["yrdoyw"], -3);
-							$eYear = substr($retW["daily"][count($retW["daily"])]["yrdoyw"], 0, -3);
+							$sDay = substr($retW["start"], -3);
+							$eYear = substr($retW["end"], 0, -3);
 							if ($eYear == "") $eYear = "00";
 							else if (strlen($eYear) == 1) $eYear = "0".$eYear;
-							$eDay = substr($retW["daily"][count($retW["daily"])]["yrdoyw"], -3);
+							$eDay = substr($retW["end"], -3);
 							
 							if ($checkRet[$wid]["dbStatus"] == "1") {
 								$dbStatus =  "Fully Available In DB";
@@ -180,10 +180,10 @@
 							}
 							
 							if (isset($fileTypes["W"])) {
-								$wInfo = "\r\n<br/>Read From <strong>";
-//								for($k=0; $k<count($fileTypes["W"]); $k++)  $wInfo .= $fileTypes["W"][$k] . "<br/>";
-//								if ($wInfo != "" ) $wInfo = substr($wInfo, 0, -5); 
-								$wInfo .= $fileTypes["W"][$i];
+								$wInfo = "\r\n<br/>Read From :<br/><strong>";
+								for($k=0; $k<count($fileTypes["W"][$i]); $k++)  $wInfo .= "&emsp;&middot; ". $fileTypes["W"][$i][$k] . "<br/>";
+								if ($wInfo != "" ) $wInfo = substr($wInfo, 0, -5); 
+								//$wInfo .= $fileTypes["W"][$i];
 								$wInfo .= "</strong><br/>\r\n";
 							} else {
 								$wInfo = "";
@@ -218,7 +218,7 @@
 				</tr>
 				<?php
 					$filesO = readTempFileJson("O", false);
-					if ($filesO != "") {
+					if ($filesO != "") {
 						
 						if (isset($filesO[0]["file_name"])) {
 							$oidT = $expId;

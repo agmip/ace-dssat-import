@@ -10,6 +10,7 @@
 			$p_explain["input02"][1] = "Please choose to use them by reading from the database or uploading a new profile.";
 			$p_explain["input03"][0] = "The following weather profiles are listed for your expreriment.";
 			$p_explain["input03"][1] = "If you want to upload a new file, please check the update checkbox, then select your file.";
+			$p_explain["input03"][2] = "If you want to upload multiple files, please click Add More button to take additional upload fields.";
 			$p_explain["input04"][0] = "Choose A and T file for your experiment if available.(OPTIONAL)";
 			$p_explain["confirm"][0] = "Please confirm if correct file are checked for uploading.";
 			$p_explain["save"][0] = "The files you uploaded are saved and will be reviewed by administrator.";
