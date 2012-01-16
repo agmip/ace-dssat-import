@@ -257,6 +257,22 @@ function changeActiveStatus(idStr) {
 	}
 }
 
+function changeActiveStatusW(idStr) {
+	var chk = document.getElementById("check_"+idStr);
+	var filePath = document.getElementById("FilePath_"+idStr);
+	var fileAdd = document.getElementById("FileAdd_"+idStr);
+	var fileId = document.getElementById("FileId_"+idStr);
+	if (chk.checked) {
+		filePath.disabled = false;
+		fileAdd.disabled = false;
+		fileId.disabled = false;
+	} else {
+		filePath.disabled = true;
+		fileAdd.disabled = true;
+		fileId.disabled = true;
+	}
+}
+
 function changeToUpload() {
 	var upload_file = document.getElementById("upload_file");
 	var file1 = document.getElementById("FilePath").value;
@@ -273,4 +289,11 @@ function changeToUploadById(idStr) {
 		upload_file.value = "0";
 		upload_file_id.value = "0";
 	}
+}
+
+function changeToUploadById2(idStr) {
+	var upload_file = document.getElementById("upload_file");
+	var upload_file_id = document.getElementById("upload_file_" + idStr);
+	upload_file.value = "0";
+	upload_file_id.value = "0";
 }

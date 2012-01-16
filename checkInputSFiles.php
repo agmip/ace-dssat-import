@@ -154,7 +154,7 @@
 				
 				if (array_key_exists("W", $fileTypes)) {
 					for ($i = 0; $i< count($fileTypes["W"]); $i++) {
-						echo "<input type='hidden' id='upload_file' name='upload_file[]' value='" . $fileTypes["W"][$i] . "' />\r\n";
+						echo "<input type='hidden' id='upload_file' name='upload_file[]' value='" . json_encode($fileTypes["W"][$i]) . "' />\r\n";
 					}
 				}
 			} else if ($target == "confirmFiles.php") {
