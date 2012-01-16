@@ -5,7 +5,7 @@
 		$dc_paras["host"]="localhost";
 		$dc_paras["db"]="ageng_agmip";
 		$dc_paras["user"]="root";
-    $dc_paras["pass"]="";
+		$dc_paras["pass"]="";
 		
 		return  $dc_paras;
 	}
@@ -37,7 +37,7 @@
 			die('Could not connect 02: ' . mysql_error());
 		}
 
-		$dc_sql = $dbConnectInput["dc_sql"];
+		$dc_sql = str_ireplace("'null'", "null", $dbConnectInput["dc_sql"]);
 		$result = mysql_query($dc_sql);
 		if ($dbConnectInput["dc_sql_type"] == "select") {
 	

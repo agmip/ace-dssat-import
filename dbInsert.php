@@ -138,7 +138,7 @@
 		
 		$notes = "";
 		for ($j = 1; $j <= count($ret["general"]["notes"]); $j++) {
-			$notes = $notes.$ret["general"]["notes"][$j];
+			$notes = $notes.$ret["general"]["notes"][$j]."\r\n"; // TODO "\r\n" is not fulfilled with json format
 		}
 		
 		$dbConnectInput["dc_sql"] = "INSERT INTO `". $dc_db ."`.`experimental_descrips` (`exname`, `local_name`, `people`, `address`, `site`, `play`, `notes`) VALUES ('".$ret["exp.details:"]["exname"]."', '".$ret["exp.details:"]["local_name"]."', '".$ret["general"]["people"]."', '".$ret["general"]["address"]."', '".$ret["general"]["site"]."', '".$ret["general"]["polt_info"]["play"]."', '". $notes ."')";
@@ -465,9 +465,10 @@
 		if ($dayStr != -99 && $dayStr != "-99") {
 			$year = floor($dayStr/1000);
 			$day = $dayStr%1000;
-			return date("Ymd",mktime(0,0,0,1,$day,$year));
+			return date("Y-m-d",mktime(0,0,0,1,$day,$year));
 		} else {
-			return "00000000";
+//			return "00000000";
+			return "null";
 		}
 	}
 ?>

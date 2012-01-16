@@ -82,9 +82,10 @@
 					$trName = $ret[$i]["tr_name"];
 					$checkBoxId = $exp_id . "_" . $trNum;
 					if ($isFstLine) {
-						echo "<form id='form_" . $exp_id ."' method='post' action='getFiles.php'><tr>";
+						echo "<form id='form_" . $exp_id ."' method='post' action='getFiles.php'>";
+						echo "<input name='exp_id' type='hidden' value='" . $exp_id . "'/>";
 					}
-					echo "<input name='exp_id' type='hidden' value='" . $exp_id . "'/>";
+					echo "<tr>";
 					if ($isFstLine) {
 						echo "<td rowspan='". $cnt ."' class='style3'><a href='expDetail.php?expId=" . $exp_id . "'>" . $exName . "</a></td>";
 					}
