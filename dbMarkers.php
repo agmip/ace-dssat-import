@@ -40,7 +40,7 @@
 		
 		if (sizeof($crops) !== 0) {
 			$strCrops = " AND ( exp.exname LIKE '%" . $crops[0] . "'";
-			for ($i = 1; $i < sizeof($crops); $i++) {
+			for ($i = 0; $i < sizeof($crops); $i++) {
 				$strCrops = $strCrops . " OR exp.exname LIKE '%" . $crops[$i] . "'";
 			}
 			$strCrops = $strCrops . " ) ";

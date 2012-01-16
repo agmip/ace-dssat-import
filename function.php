@@ -70,7 +70,7 @@
 					$tmp["harm"] = rtrim($tmp["harm"]);
 				$ret[$flg[0]]["polt_info"] = $tmp;
 			} else if ($flg[1] == "notes" && $flg[2] == "data") {
-				$ret[$flg[0]]["notes"] = addArray($ret[$flg[0]]["notes"], " ". trim($line)."\r\n", "");
+				$ret[$flg[0]]["notes"] = addArray($ret[$flg[0]]["notes"], " ". trim($line), "");
 			} else {
 			}
 		
@@ -270,6 +270,7 @@
 			// general
 			if (strpos($flg[1], "n general") === 0 && $flg[2] == "data") {
 				sscanf($line, "%2d %11s %2d %2d %1s %5d %5d %25[^\^] %[^\^]", $tmp["lnsim"], $tmp["titcom"], $tmp["nyrs"], $tmp["nrepsq"], $tmp["isimi"], $tmp["yrsim"], $tmp["rseed"], $tmp["titsim"], $tmp["model"]);
+				$tmp["titsim"] = rtrim($tmp["titsim"]);
 				$tmp["model"] = rtrim($tmp["model"]);
 				$ret[$flg[0]] = addArray($ret[$flg[0]], $tmp, $tmp["lnsim"]);
 			
@@ -529,5 +530,465 @@
 			}
 		}
 	}
+	
+	// Judge the content type of the line
+	function judgeContentTypeS($line, $flg) {
+		
+		if (strpos($line, "*") === 0) {
+			
+			if (strpos(strtolower($line), "soils") === 1) {
+				$flg[0] = "soils";
+			} else {
+				$flg[0] = "site";
+			}
+			$flg[1] = "";
+			$flg[2] = "data";
+			 
+			
+		} else if (strpos($line, "@") === 0) {
+			
+			$flg[1] = strtolower(trim(substr($line, 1)));
+			$flg[2] = "";
+			
+		} else if (strpos($line, "!") === 0) {
+			
+			$flg[2] = "comment";
+			
+		} else if (trim($line) !== "") {
+			
+			$flg[2] = "data";
+			
+		} else if ($flg[2] !== "blank") {
+			
+			$flg[1] = "";
+			$flg[2] = "blank";
+			
+		} else {
+			
+			$flg[0] = "";
+			$flg[1] = "";
+			$flg[2] = "blank";
+		}
 
+		return $flg;
+	}
+	
+	// split one line content into array
+	function getSpliterResultS($flg, $line, $ret) {
+		
+		//Read SOILS Info
+		if ($flg[0] == "soils" && $flg[2] == "data") {
+			
+			$line = str_ireplace("*soils:", "", $line);
+			$ret["address"] = rtrim(str_ireplace("*soils :", "", $line));
+			
+		// read Site Info
+		} else if ($flg[0] == "site") {
+			
+			// header info
+			if ($flg[1] == "" && $flg[2] == "data") {
+				
+				// Create the sub array for the new soil
+				$tmp = createSoilSubArray();
+
+				// Get the info from line and save them into array
+				sscanf($line, "%*1s%10s %11s %5s %5f %50[^\^]", $tmp["pedon"], $tmp["slsour"], $tmp["sltx"], $tmp["sldp"], $tmp["sldesc"]);
+				$tmp["sldesc"] = rtrim($tmp["sldesc"]);
+				$ret["site"] = addArray($ret["site"], $tmp, "");
+				
+			} // Site info
+			else if (strpos($flg[1], "site ") === 0 && $flg[2] == "data") {
+				
+				// Get the current sub array
+				$cnt = count($ret["site"]);
+				$tmp = $ret["site"][$cnt];
+				
+				// Get the info from line and save them into array
+				sscanf($line, " %11s %11s %8f %8f %50[^\^]", $tmp["ssite"], $tmp["scount"], $tmp["slat"], $tmp["slong"], $tmp["tacon"]);
+				$tmp["tacon"] = rtrim($tmp["tacon"]);
+				$ret["site"][$cnt] = $tmp;
+
+			} // soil info
+			else if (strpos($flg[1], "scom ") === 0 && $flg[2] == "data") {
+				
+				// Get the current sub array
+				$cnt = count($ret["site"]);
+				$tmp = $ret["site"][$cnt];
+				
+				// Get the info from line and save them into array
+				sscanf($line, " %5s %5f %5f %5f %5f %5f %5f %5s %5s %5s", $tmp["scom"], $tmp["salb"], $tmp["u"], $tmp["swcon"], $tmp["cn2"], $tmp["slnf"], $tmp["slpf"], $tmp["smhb"], $tmp["smpx"], $tmp["smke"]);
+				$ret["site"][$cnt] = $tmp;
+				
+			} // layer1 info
+			else if (strpos($flg[1], "slb  slmh") === 0 && $flg[2] == "data") {
+				
+				// Get the current element's index in the array
+				$cnt = count($ret["site"]);
+				
+				// Get the info from line and save them into array
+				sscanf($line, " %5f %5s %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f", $tmp["zlyr"], $tmp["mh"], $tmp["ll"], $tmp["dul"], $tmp["sat"], $tmp["shf"], $tmp["swcn"], $tmp["bd"], $tmp["oc"], $tmp["clay"], $tmp["silt"], $tmp["stones"], $tmp["totn"], $tmp["ph"], $tmp["phkcl"], $tmp["cec"], $tmp["sadc"]);
+				$ret["site"][$cnt]["layer1"] = addArray($ret["site"][$cnt]["layer1"], $tmp, "");
+				
+			} // layer2 info
+			else if (strpos($flg[1], "slb  slpx ") === 0 && $flg[2] == "data") {
+				
+				// Get the current element's index in the array
+				$cnt = count($ret["site"]);
+				
+				// Get the info from line and save them into array
+				sscanf($line, " %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f %5f", $tmp["zzlyr"], $tmp["extp"], $tmp["totp"], $tmp["orgp"], $tmp["caco"], $tmp["extal"], $tmp["extfe"], $tmp["extmn"], $tmp["totbas"], $tmp["pterma"], $tmp["ptermb"], $tmp["exk"], $tmp["exmg"], $tmp["exna"], $tmp["exts"], $tmp["slec"], $tmp["slca"]);
+				$ret["site"][$cnt]["layer2"] = addArray($ret["site"][$cnt]["layer2"], $tmp, "");
+				
+			} else {
+			}
+		} else {
+		}
+		
+		return $ret;
+	}
+	
+	// create exp data array
+	function createSoilArray() {
+		
+		$ret["address"] = "";
+		$ret["site"] = array();
+		
+		return $ret;
+	}
+	
+	// create exp data array
+	function createSoilSubArray() {
+		
+		$ret["pedon"] = "";
+		$ret["slsour"] = "";
+		$ret["sltx"] = "";
+		$ret["sldp"] = "";
+		$ret["sldesc"] = "";
+		$ret["ssite"] = "";
+		$ret["scount"] = "";
+		$ret["slat"] = "";
+		$ret["slong"] = "";
+		$ret["tacon"] = "";
+		$ret["scom"] = "";
+		$ret["salb"] = "";
+		$ret["u"] = "";
+		$ret["swcon"] = "";
+		$ret["cn2"] = "";
+		$ret["slnf"] = "";
+		$ret["slpf"] = "";
+		$ret["smhb"] = "";
+		$ret["smpx"] = "";
+		$ret["smke"] = "";
+		$ret["layer1"] = array();
+		$ret["layer2"] = array();
+		
+		return $ret;
+	}
+	
+	function printSoilArray($arr) {
+		
+		echo "[soils]......[" . $arr["address"] . "]<br/>";
+		$site = $arr["site"];
+		
+		for ($i = 1; $i <=count($site) ;$i++) {
+
+			echo "############## Site" . $i . " ##############<br/>";
+			$subKeys = array_keys($site[$i]);
+			
+			foreach ($subKeys as $subKey) {
+			
+				if (gettype($site[$i][$subKey]) == "array") {
+					
+					for ($j = 1; $j<= count($site[$i][$subKey]); $j++) {
+						$subArr = $site[$i][$subKey][$j];
+						$subKeys2 = array_keys($subArr);
+						echo "************* layer" . $j . " *************<br/>";
+						foreach ($subKeys2 as $subKey2) {
+							echo "[" . $subKey . "]-->[".$subKey2."]......[" . $subArr[$subKey2] . "]<br />";
+						}
+					}
+					
+				} else {
+					echo "[". $subKey . "]......[" . $site[$i][$subKey] ."]<br />";
+				}
+			}
+		}
+	}
+	
+	// Judge the content type of the line
+	function judgeContentTypeW($line, $flg) {
+		
+		if (strpos($line, "*") === 0) {
+			
+			if (strpos(strtolower($line), "weather") === 1) {
+				$flg[0] = "weather";
+			} else {
+				$flg[0] = "site";
+			}
+			$flg[1] = "";
+			$flg[2] = "data";
+			 
+			
+		} else if (strpos($line, "@") === 0) {
+			
+			$flg[0] = "site";
+			$flg[1] = strtolower(trim(substr($line, 1)));
+			$flg[2] = "";
+			
+		} else if (strpos($line, "!") === 0) {
+			
+			$flg[2] = "comment";
+			
+		} else if (trim($line) !== "") {
+			
+			$flg[2] = "data";
+			
+		} else if ($flg[2] !== "blank") {
+			
+			$flg[1] = "";
+			$flg[2] = "blank";
+			
+		} else {
+			
+			$flg[0] = "";
+			$flg[1] = "";
+			$flg[2] = "blank";
+		}
+
+		return $flg;
+	}
+	
+	// split one line content into array
+	function getSpliterResultW($flg, $line, $ret) {
+		
+		//Read Weather Info
+		if ($flg[0] == "weather" && $flg[2] == "data") {
+			
+			$line = str_ireplace("*soils:", "", $line);
+			$ret["address"] = rtrim(str_ireplace("*weather data : ", "", $line));
+			
+		// read Site Info
+		} else if ($flg[0] == "site") {
+			
+			if (strpos($flg[1], "insi ") === 0 && $flg[2] == "data") {
+				
+				sscanf($line, " %2s%2s %8f %8f %5f %5f %5f %5f %5f", $ret["inste"], $ret["sitee"], $ret["xlat"], $ret["xlong"], $ret["elev"], $ret["tav"], $ret["tamp"], $ret["refht"], $ret["wndht"]);
+					
+			} else if (strpos($flg[1], "date ") === 0 && $flg[2] == "data") {
+				
+				$tmp = createWthSubArray(); // For the situation that some files don't contain all the field
+				sscanf($line, "%5d %5f %5f %5f %5f %5f %5f %5f", $tmp["yrdoyw"], $tmp["srad"], $tmp["tmax"], $tmp["tmin"], $tmp["rain"], $tmp["tdew"], $tmp["windsp"], $tmp["par"]);
+				$ret["daily"] = addArray($ret["daily"], $tmp, "");
+				
+			} else {
+			}
+		} else {
+		}
+		
+		return $ret;
+	}
+	
+	// create exp data array
+	function createWthArray() {
+		
+		$ret["address"] = "";
+		$ret["inste"] = "";
+		$ret["sitee"] = "";
+		$ret["xlat"] = "";
+		$ret["xlong"] = "";
+		$ret["elev"] = "";
+		$ret["tav"] = "";
+		$ret["tamp"] = "";
+		$ret["refht"] = "";
+		$ret["wndht"] = "";
+		$ret["daily"] = array();
+		
+		return $ret;
+	}
+	
+	// create exp data array
+	function createWthSubArray() {
+		
+		$ret["yrdoyw"] = "";
+		$ret["srad"] = "";
+		$ret["tmax"] = "";
+		$ret["tmin"] = "";
+		$ret["rain"] = "";
+		$ret["tdew"] = "";
+		$ret["windsp"] = "";
+		$ret["par"] = "";
+		
+		return $ret;
+	}
+	
+	function printWthArray($arr) {
+		
+		$keys = array_keys($arr);
+		foreach ($keys as $key) {
+			
+			if (gettype($arr[$key]) == "array") {
+				
+				// print title
+				$subArr = $arr[$key][1];
+				$subKeys = array_keys($subArr);
+				echo "<table><tr>";
+				foreach ($subKeys as $subKey) {
+						echo "<td>" . $subKey . "</td>";
+				}
+				echo "</tr>";
+				
+				// print daily data
+				for ($i = 1; $i<= count($arr[$key]); $i++) {
+					echo "<tr>";
+					foreach ($subKeys as $subKey) {
+						echo "<td>" . $subArr[$subKey] . "</td>";
+					}
+					echo "</tr>";
+				}
+				echo "</table>";
+				
+			} else {
+				echo "[". $key . "]......[" . $arr[$key] ."]<br />";
+			}
+		}
+		
+	}
+
+	// Judge the content type of the line
+	function judgeContentTypeO($line, $flg) {
+		
+		if (strpos($line, "*") === 0) {
+
+			$flg[0] = "meta";
+			$flg[1] = "";
+			$flg[2] = "";	 
+			
+		} else if (strpos($line, "@") === 0) {
+			
+			$flg[0] = "obv";
+			$flg[1] = strtolower(trim(substr($line, 1)));
+			$flg[2] = "title";
+			
+		} else if (strpos($line, "!") === 0) {
+			
+			$flg[0] = "comment";
+			$flg[2] = "comment";
+			
+		} else if (trim($line) !== "") {
+			
+			$flg[2] = "data";
+			
+		} else if ($flg[2] !== "blank") {
+			
+			$flg[1] = "";
+			$flg[2] = "blank";
+			
+		} else {
+			
+			$flg[0] = "";
+			$flg[1] = "";
+			$flg[2] = "blank";
+		}
+
+		return $flg;
+	}
+	
+	// split one line content into array
+	function getSpliterResultO($flg, $line, $ret) {
+		
+		//Read Weather Info
+		if ($flg[0] == "meta") {
+			
+			$ret["meta"] .= rtrim(substr($line, strpos($line, ":") + 1));
+			
+		// read Site Info
+		} else if ($flg[0] == "obv") {
+			
+			if ($flg[2] == "title") {
+				
+			} else if ($flg[2] == "data") {
+				
+				$titles = preg_split("/[\s]+/", $flg[1]);
+				$tmp = createObvSubArray($titles);
+
+				$p = 0;
+				$i = 0;
+				while ($p < strlen($line) - 6) {
+					$datas[$i] = trim(substr($line, $p, 6));
+					$i++;
+					$p += 6;
+				}
+				if (strlen($line) % 6 != 0) {
+					$datas[$i] = trim(substr($line, $p));
+				}
+				
+				//$datas = preg_split("/[\s]+/", trim($line));
+				
+				$i = 0;
+				foreach ($tmp as &$t) {
+					$t = $datas[$i];
+					$i++;
+				}
+				
+				$ret["data"] = addArray($ret["data"], $tmp, "");
+				
+			} else {
+			}
+		} else {
+		}
+		
+		return $ret;
+	}
+	
+	// create exp data array
+	function createObvArray() {
+		
+		$ret["meta"] = "";
+		$ret["data"] = array();
+		
+		return $ret;
+	}
+	
+	// create exp data array
+	function createObvSubArray($titles) {
+		
+		for ($i = 0; $i < count($titles); $i++) {
+			$ret[$titles[$i]] = "";
+		}
+		
+		return $ret;
+	}
+	
+	function printObvArray($arr) {
+		
+		$keys = array_keys($arr);
+		foreach ($keys as $key) {
+			
+			if (gettype($arr[$key]) == "array") {
+				
+				// print title
+				$subArr = $arr[$key][1];
+				$subKeys = array_keys($subArr);
+				echo "<table><tr>";
+				foreach ($subKeys as $subKey) {
+						echo "<td>" . $subKey . "</td>";
+				}
+				echo "</tr>";
+				
+				// print daily data
+				for ($i = 1; $i<= count($arr[$key]); $i++) {
+					echo "<tr>";
+					foreach ($subKeys as $subKey) {
+						echo "<td>" . $subArr[$subKey] . "</td>";
+					}
+					echo "</tr>";
+				}
+				echo "</table>";
+				
+			} else {
+				echo "[". $key . "]......[" . $arr[$key] ."]<br />";
+			}
+		}
+		
+	}
 ?>

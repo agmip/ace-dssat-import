@@ -814,7 +814,7 @@
 			} else {
 				$format = substr($format, 0, strlen($format) - 1) . "s";
 			}
-			return sprintf($format, $str);
+			return sprintf(str_ireplace("%0", "%", $format), $str);
 		}
 	}
 ?>

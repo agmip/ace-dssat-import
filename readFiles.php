@@ -35,7 +35,7 @@
 	<?php include("parts_header.php"); ?>
 	<?php include("function.php"); ?>
 	<?php
-		$fileNum = 1;
+		$fileNum = 1; //TODO
 		$files = array();
 		
 		for($i = 0; $i < $fileNum; $i++) {
