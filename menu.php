@@ -27,28 +27,10 @@
 			<tr>
 				<td colspan="3" class="style1" style="height: 69px; border-bottom-style: dotted; border-bottom-width: thin; border-bottom-color: #000000;"><strong>Menu</strong></td>
 			</tr>
+			
 			<tr>
 				<td style="width: 39px; height: 40px;"></td>
-				<td colspan="2" style="height: 40px">Upload Data File</td>
-			</tr>
-			<tr>
-				<td style="width: 39px; height: 28px;"></td>
-				<td style="width: 30px; height: 28px;"></td>
-				<td style="height: 28px; width: 449px"><a href="inputFiles.php">Experimental Data</a></td>
-			</tr>
-			<tr>
-				<td style="width: 39px; height: 28px;"></td>
-				<td style="width: 30px; height: 28px;"></td>
-				<td style="height: 28px; width: 449px"><a href="#" onclick="alert('This page has not been completed.')">Soil Data</a></td>
-			</tr>
-			<tr>
-				<td style="width: 39px; height: 28px;"></td>
-				<td style="width: 30px; height: 28px;"></td>
-				<td style="height: 28px; width: 449px"><a href="#" onclick="alert('This page has not been completed.')">Weather Data</a></td>
-			</tr>
-			<tr>
-				<td style="width: 39px; height: 40px;"></td>
-				<td colspan="2" style="height: 40px">View Data</td>
+				<td colspan="2" style="height: 40px"><strong>View Data</strong> - Browse data in the AgMIP Crop Experiment database</td>
 			</tr>
 			<tr>
 				<td style="width: 39px; height: 28px;"></td>
@@ -62,7 +44,26 @@
 			</tr>
 			<tr>
 				<td style="width: 39px; height: 40px;"></td>
-				<td colspan="2" style="height: 40px"><a href="#" onclick="alert('This page has not been completed.')">Query Data</a></td>
+				<td colspan="2" style="height: 40px"><strong>Upload Your Data File</strong> - upload your file or continue your previous work</td>
+			</tr>
+			<tr>
+				<td style="width: 39px; height: 28px;"></td>
+				<td style="width: 30px; height: 28px;"></td>
+				<td style="height: 28px; width: 449px"><a href="listTemp.php">Experimental Data</a></td>
+			</tr>
+			<tr>
+				<td style="width: 39px; height: 28px;"></td>
+				<td style="width: 30px; height: 28px;"></td>
+				<td style="height: 28px; width: 449px"><a href="inputSoilFiles.php">Soil Data</a></td>
+			</tr>
+			<tr>
+				<td style="width: 39px; height: 28px;"></td>
+				<td style="width: 30px; height: 28px;"></td>
+				<td style="height: 28px; width: 449px"><a href="inputWthFiles.php">Weather Data</a></td>
+			</tr>
+			<tr>
+				<td style="width: 39px; height: 40px;"></td>
+				<td colspan="2" style="height: 40px"><a href="#" onclick="alert('This page has not been completed.')"><strong>Query Data</strong></a></td>
 			</tr>
 		</table>
 	</div>
