@@ -5,5 +5,5 @@ release/*
 template/*
 test/*
 dbConnect.php
-
+dssat.err
 *.swp

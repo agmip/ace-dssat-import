@@ -51,7 +51,7 @@
 				//$filesW[$i] = $retW;
 				
 				if ($_FILES["FilePath_" . $wid]["tmp_name"][$i] != "") {
-				
+          $filename = $_FILES["FilePath_" . $wid]["name"][$i];
 					$file = fopen($_FILES["FilePath_" . $wid]["tmp_name"][$i],"r") or exit("Unable to open file!"); 	
 					
 					while(!feof($file)) {
@@ -70,7 +70,22 @@
 					
 					// Check if the user input data is contain the necessary data
 					if (($retW["inste"] . $retW["sitee"]) != $_POST["wid"][$j]) {
-						$validDataFlgs[$j] = false;
+            // TEMP: chporter has authorized a fuzzy routine to check the file name, in case the inste+sitee is incorrect.
+            $checkname = basename($filename);
+            if( substr( $checkname, 0, 4 ) != $wid ) { 
+              echo $checkname.'<br>';
+              echo substr($checkname, 0, 4).'<br>';
+              echo $wid.'<br>';
+              exit();
+              $validDataFlgs[$j] = false;
+            } else {
+              // Log this for the DSSAT Police (chporter)
+              $errlog = fopen("./dssat.err", "a") or die ("Cannot open error file");
+              fwrite($errlog, "ERROR IN FILE ".$checkname.": Expected: ".$wid." Received: ".$retW["inste"].$retW["sitee"]."\r\n"); 
+              fclose($errlog);
+              $retW["inste"] = substr( $checkname, 0, 2 );
+              $retW["sitee"] = substr( $checkname, 2, 2 );
+            }
 					} else {
 						// TODO check if there is enough days in the upload file
 					}
