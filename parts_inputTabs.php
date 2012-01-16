@@ -1,17 +1,17 @@
 		<?php
 			// Define the tab texts
 			$p_contents = array("Step 1. XFile",
-										"Step 2. Soil File",
-										"Step 3. Weather File",
-										"Step 4. Observation File",
+										"Step 2. Observation File",
+										"Step 3. Soil File",
+										"Step 4. Weather File",
 										"Step 5. Confirm",
 										"Step 6. Save");
 			// Define the tab links
 			$p_links = array ("inputFiles01.php",
-										"checkInputXFiles.php",		// 02 Soil
-										"checkInputSFiles.php",		// 03 Weather
-										"checkInputWFiles.php",	// 04 Observation
-										"checkInputOFiles.php",	// 05 Confirm
+										"checkInputXFiles.php",		// 02 Observation
+										"checkInputOFiles.php",	// 03 Soil
+										"checkInputSFiles.php",		// 04 Weather
+										"checkInputWFiles.php",	// 05 Confirm
 										"#");									// TODO 06 Save
 			
 			if (isset($_SESSION["dssat_steps"])) {

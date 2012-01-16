@@ -45,7 +45,7 @@ function readFile(txt) {
 }
 
 // check if the user input correct type of files
-function checkExdForExpfile() {
+function checkExdForExpfile2() {
 	var form1 = document.getElementById("form1");
 	var file1 = document.getElementById("FilePath").value;
 	var patt1=new RegExp(".+[\\.][a-zA-Z0-9]{2}[xX]");
@@ -60,7 +60,7 @@ function checkExdForExpfile() {
 }
 
 // check if the user input correct type of files
-function checkExdForSoilfile() {
+function checkExdForSoilfile2() {
 	var form1 = document.getElementById("form1");
 	var file1 = document.getElementById("FilePath").value;
 	var patt1=new RegExp(".+[\\.][Ss][Oo][Ll]");
@@ -75,22 +75,7 @@ function checkExdForSoilfile() {
 }
 
 // check if the user input correct type of files
-function checkExdForSoilfile() {
-	var form1 = document.getElementById("form1");
-	var file1 = document.getElementById("FilePath").value;
-	var patt1=new RegExp(".+[\\.][Ss][Oo][Ll]");
-	
-	if (file1 == "") {
-		alert("Please select a soil data file.");
-	} else if (patt1.test(file1)) {
-		form1.submit();
-	} else {
-		alert("Please confirm the extension name of files!");
-	}
-}
-
-// check if the user input correct type of files
-function checkExdForWthfile() {
+function checkExdForWthfile2() {
 	var form1 = document.getElementById("form1");
 	var file1 = document.getElementById("FilePath").value;
 	var patt1=new RegExp(".+[\\.][Ww][Tt][Hh]");
@@ -272,6 +257,22 @@ function changeActiveStatus(idStr) {
 	}
 }
 
+function changeActiveStatusW(idStr) {
+	var chk = document.getElementById("check_"+idStr);
+	var filePath = document.getElementById("FilePath_"+idStr);
+	var fileAdd = document.getElementById("FileAdd_"+idStr);
+	var fileId = document.getElementById("FileId_"+idStr);
+	if (chk.checked) {
+		filePath.disabled = false;
+		fileAdd.disabled = false;
+		fileId.disabled = false;
+	} else {
+		filePath.disabled = true;
+		fileAdd.disabled = true;
+		fileId.disabled = true;
+	}
+}
+
 function changeToUpload() {
 	var upload_file = document.getElementById("upload_file");
 	var file1 = document.getElementById("FilePath").value;
@@ -288,4 +289,11 @@ function changeToUploadById(idStr) {
 		upload_file.value = "0";
 		upload_file_id.value = "0";
 	}
+}
+
+function changeToUploadById2(idStr) {
+	var upload_file = document.getElementById("upload_file");
+	var upload_file_id = document.getElementById("upload_file_" + idStr);
+	upload_file.value = "0";
+	upload_file_id.value = "0";
 }
