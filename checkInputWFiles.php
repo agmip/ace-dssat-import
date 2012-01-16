@@ -43,6 +43,11 @@
 					$flg = judgeContentTypeW($line, $flg); // explode,splitStrToArray
 					//echo "[line".$lineNo."],[".$flg[0]."],[".$flg[1]."],[".$flg[2]."]<br>"; //debug
 					$retW = getSpliterResultW($flg, $line, $retW);
+//					if ($flg === false) {
+//						
+//					} else {
+//						
+//					} //TODO later revise to improve performance
 				}
 				fclose($file);
 				
@@ -90,28 +95,12 @@
 	// Read Xfile and decide forward page
 	if ($validDataFlg) {
 		
-		// Read XFile From DB temp table
-		$files = readTempFileJson("X", true);
-		
-		$ret = $files[0]; // TODO will be changed when multiple file uploaded allowed
-		
 		// Set forward page
-		if (isset($_POST["submitType"]) && $_POST["submitType"] == "finish") {
-		
-			// All check ok, forward to confirm page
-			if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 5) {
-				$_SESSION["dssat_steps"] = 5;
-			}
-			$target = "confirmFiles.php";
-			
-		} else {
-			$fileTypes = checkUploadStatus();
-			
-			if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 4) {
-				$_SESSION["dssat_steps"] = 4;
-			}
-			$target = "inputFiles04.php";
+		if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 5) {
+			$_SESSION["dssat_steps"] = 5;
 		}
+		$target = "confirmFiles.php";
+		
 	} else {
 		$target = "inputFiles00.php";
 	}
@@ -131,15 +120,7 @@
 <body onload="autoSubmit();">
 	<form id="form1" method="post" action="<?php echo $target; ?>" enctype="multipart/form-data">
 		<?php
-			if ($target == "inputFiles04.php") {
-				echo "<input type='hidden' name='content_id' value='" . $ret["exp.details:"]["exname"] . "' />\r\n";
-				
-				if (array_key_exists("O", $fileTypes)) {
-					for ($i = 0; $i< count($fileTypes["O"]); $i++) {
-						echo "<input type='hidden' id='upload_file' name='upload_file[]' value='" . $fileTypes["O"][$i] . "' />\r\n";
-					}
-				}
-			} else if ($target == "confirmFiles.php") {
+			if ($target == "confirmFiles.php") {
 				
 			}
 		?>

@@ -105,7 +105,7 @@
 			// Check if weather data is avaliable in DB
 			if (!array_key_exists("W", $fileTypes) && !checkWthAvailable($ret, $checkRet)) {
 				if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 3) {
-					$_SESSION["dssat_steps"] = 3;
+					$_SESSION["dssat_steps"] = 4;
 				}
 				$target = "inputFiles03.php";
 			} else {
@@ -121,7 +121,7 @@
 			checkWthAvailable($ret, $checkRet);
 			
 			if (!isset($_SESSION["dssat_steps"]) || $_SESSION["dssat_steps"] < 3) {
-				$_SESSION["dssat_steps"] = 3;
+				$_SESSION["dssat_steps"] = 4;
 			}
 			$target = "inputFiles03.php";
 		}

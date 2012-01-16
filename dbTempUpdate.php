@@ -81,11 +81,11 @@
 		
 		if ($fileType == "X") {
 			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 2 WHERE input_id = '" . $_SESSION["input_id"] . "'";
-		} else if ($fileType == "S") {
-			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 3 WHERE input_id = '" . $_SESSION["input_id"] . "' AND step_no <= 2";
-		} else if ($fileType == "W") {
-			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 4 WHERE input_id = '" . $_SESSION["input_id"] . "' AND step_no <= 3";
 		} else if ($fileType == "O") {
+			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 3 WHERE input_id = '" . $_SESSION["input_id"] . "' AND step_no <= 2";
+		} else if ($fileType == "S") {
+			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 4 WHERE input_id = '" . $_SESSION["input_id"] . "' AND step_no <= 3";
+		} else if ($fileType == "W") {
 			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 5 WHERE input_id = '" . $_SESSION["input_id"] . "' AND step_no <= 4";
 		} else if ($fileType == "U") {
 			$dbConnectInput["dc_sql"] = "UPDATE temp_file SET step_no = 6 WHERE input_id = '" . $_SESSION["input_id"] . "' AND step_no <= 5";

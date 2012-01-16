@@ -1,5 +1,5 @@
 <?php include("parts_checkSession.php"); ?>
-<?php $p_pageNum=2; $p_page="input02"; include("parts_checkTabsStatus.php"); ?>
+<?php $p_pageNum=3; $p_page="input02"; include("parts_checkTabsStatus.php"); ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

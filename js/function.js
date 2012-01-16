@@ -45,7 +45,7 @@ function readFile(txt) {
 }
 
 // check if the user input correct type of files
-function checkExdForExpfile() {
+function checkExdForExpfile2() {
 	var form1 = document.getElementById("form1");
 	var file1 = document.getElementById("FilePath").value;
 	var patt1=new RegExp(".+[\\.][a-zA-Z0-9]{2}[xX]");
@@ -60,7 +60,7 @@ function checkExdForExpfile() {
 }
 
 // check if the user input correct type of files
-function checkExdForSoilfile() {
+function checkExdForSoilfile2() {
 	var form1 = document.getElementById("form1");
 	var file1 = document.getElementById("FilePath").value;
 	var patt1=new RegExp(".+[\\.][Ss][Oo][Ll]");
@@ -75,22 +75,7 @@ function checkExdForSoilfile() {
 }
 
 // check if the user input correct type of files
-function checkExdForSoilfile() {
-	var form1 = document.getElementById("form1");
-	var file1 = document.getElementById("FilePath").value;
-	var patt1=new RegExp(".+[\\.][Ss][Oo][Ll]");
-	
-	if (file1 == "") {
-		alert("Please select a soil data file.");
-	} else if (patt1.test(file1)) {
-		form1.submit();
-	} else {
-		alert("Please confirm the extension name of files!");
-	}
-}
-
-// check if the user input correct type of files
-function checkExdForWthfile() {
+function checkExdForWthfile2() {
 	var form1 = document.getElementById("form1");
 	var file1 = document.getElementById("FilePath").value;
 	var patt1=new RegExp(".+[\\.][Ww][Tt][Hh]");

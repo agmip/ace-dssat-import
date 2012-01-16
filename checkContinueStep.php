@@ -14,13 +14,13 @@
 		} else if ($stepNo == 2) {
 			header("Location:   checkInputXFiles.php?" . SID );
 		} else if ($stepNo == 3) {
-			header("Location:   checkInputSFiles.php?" . SID );
+			header("Location:   checkInputOFiles.php?" . SID );
 		} else if ($stepNo == 4) {
-			header("Location:   checkInputWFiles.php?" . SID );
+			header("Location:   checkInputSFiles.php?" . SID );
 		} else if ($stepNo == 5) {
-			header("Location:   checkInputOFiles.php?" . SID );
+			header("Location:   checkInputWFiles.php?" . SID );
 		} else if ($stepNo == 6) {
-			header("Location:   checkInputOFiles.php?" . SID );
+			header("Location:   checkInputWFiles.php?" . SID );
 		} else {
 			header("Location:   inputFiles00.php?" . SID );
 		}

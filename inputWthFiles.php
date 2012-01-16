@@ -41,7 +41,7 @@
 				</tr>
 				<tr>
 					<td style="height: 50px"></td>
-					<td align="right"><input type="button" value="Back to Menu" onclick="window.location.href='index.php'"/> <input id="Submit" type="button" value="Read" onclick="checkExdForWthfile()" /></td>
+					<td align="right"><input type="button" value="Back to Menu" onclick="window.location.href='index.php'"/> <input id="Submit" type="button" value="Read" onclick="checkExdForWthfile2()" /></td>
 				</tr>
 			</table>
 		</form>
