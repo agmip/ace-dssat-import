@@ -77,7 +77,7 @@
 		// if there is data not fulfilled with requirement, then goback
 		for($i = 0; $i < $fileNumS; $i++) {
 			if (!$validDataFlgs[$i]) {
-				header("Location:   checkInputXFiles.php?inputId=" . $_SESSION["input_id"] . "&" . SID );
+				header("Location:   checkInputOFiles.php?inputId=" . $_SESSION["input_id"] . "&" . SID );
 				$_SESSION["errFlg"] = "004";
 				$validDataFlg = false;
 				exit();

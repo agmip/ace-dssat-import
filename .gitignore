@@ -5,3 +5,5 @@ release/*
 template/*
 test/*
 dbConnect.php
+
+*.swp
