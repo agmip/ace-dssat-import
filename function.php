@@ -790,7 +790,8 @@
 	
 	// create exp data array
 	function createWthArray() {
-		
+
+    $ret = array();  
 		$ret["address"] = "";
 		$ret["inste"] = "";
 		$ret["sitee"] = "";
@@ -808,7 +809,7 @@
 	
 	// create exp data array
 	function createWthSubArray() {
-		
+	  $ret = array();	
 		$ret["yrdoyw"] = "";
 		$ret["srad"] = "";
 		$ret["tmax"] = "";

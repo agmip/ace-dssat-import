@@ -5,4 +5,4 @@ Experiment) formatted database from DSSAT files.
 
 ##Configuration
 
-* Modify the `dbConnect.php` file to point to your ACE database
+* Modify the `dcConnect_sample.php` and rename it to `dbConnect.db`

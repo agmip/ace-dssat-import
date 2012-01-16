@@ -4,3 +4,4 @@ doc_tech/*
 release/*
 template/*
 test/*
+dbConnect.php
